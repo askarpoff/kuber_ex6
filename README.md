@@ -32,9 +32,53 @@
 ### Задание 1 
 
 1. Создать Deployment приложения, состоящего из контейнеров busybox и multitool.
+ ```yaml
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: deployment-ex6
+  labels:
+    app: ex6
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ex6
+  template:
+    metadata:
+      labels:
+        app: ex6
+    spec:
+      containers:
+        - name: busybox
+          image: busybox
+          command: ['sh', '-c', 'while true; do echo "test" >> /share/test.txt; sleep 5; done']
+          volumeMounts:
+          - mountPath: /share
+            name: share
+        - name: network-multitool
+          image: wbitt/network-multitool
+          volumeMounts:
+          - mountPath: /share
+            name: share
+          env:
+          - name: HTTP_PORT
+            value: "80"
+          - name: HTTPS_PORT
+            value: "443"
+          ports:
+          - containerPort: 80
+            name: http-port
+          - containerPort: 443
+            name: https-port
+      volumes:
+      - name: share
+        emptyDir: {}
+```  
 2. Сделать так, чтобы busybox писал каждые пять секунд в некий файл в общей директории.
 3. Обеспечить возможность чтения файла контейнером multitool.
 4. Продемонстрировать, что multitool может читать файл, который периодоически обновляется.
+![image](https://github.com/askarpoff/kuber_ex6/assets/108946489/a7915658-6f98-425b-b422-5a711e45fd16)
 5. Предоставить манифесты Deployment в решении, а также скриншоты или вывод команды из п. 4.
 
 ------
