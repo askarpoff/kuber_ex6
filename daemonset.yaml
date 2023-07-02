@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: daemonset-ex6
+  labels:
+    app: ex6
+spec:
+  selector:
+    matchLabels:
+      app: ex6
+  template:
+    metadata:
+      labels:
+        app: ex6
+    spec:
+      containers:
+      - name: network-multitool
+        image: wbitt/network-multitool
+        volumeMounts:
+        - name: node-volume
+          mountPath: /log/syslog
+        env:
+        - name: HTTP_PORT
+          value: "80"
+        - name: HTTPS_PORT
+          value: "443"
+        ports:
+        - containerPort: 80
+          name: http-port
+        - containerPort: 443
+          name: https-port
+      volumes:
+      - name: node-volume
+        hostPath:
+          path: /var/log/syslog

@@ -1,0 +1,41 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: deployment-ex6
+  labels:
+    app: ex6
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ex6
+  template:
+    metadata:
+      labels:
+        app: ex6
+    spec:
+      containers:
+        - name: busybox
+          image: busybox
+          command: ['sh', '-c', 'while true; do echo "test" >> /share/test.txt; sleep 5; done']
+          volumeMounts:
+          - mountPath: /share
+            name: share
+        - name: network-multitool
+          image: wbitt/network-multitool
+          volumeMounts:
+          - mountPath: /share
+            name: share
+          env:
+          - name: HTTP_PORT
+            value: "80"
+          - name: HTTPS_PORT
+            value: "443"
+          ports:
+          - containerPort: 80
+            name: http-port
+          - containerPort: 443
+            name: https-port
+      volumes:
+      - name: share
+        emptyDir: {}
