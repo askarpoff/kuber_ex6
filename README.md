@@ -83,6 +83,7 @@ spec:
 
 5. Предоставить манифесты Deployment в решении, а также скриншоты или вывод команды из п. 4.
 
+[deployment.yaml](https://github.com/askarpoff/kuber_ex6/blob/main/deployment.yaml)
 
 ------
 
@@ -137,5 +138,6 @@ spec:
 
 4. Предоставить манифесты Deployment, а также скриншоты или вывод команды из п. 2.
 
+[daemonset.yaml](https://github.com/askarpoff/kuber_ex6/blob/main/daemonset.yaml)
 
 ------
